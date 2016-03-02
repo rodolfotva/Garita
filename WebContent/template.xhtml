@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:head>
+	<title>:: Gerenciamento de Consultas ::</title>
+	<link href="css/common.css" rel="stylesheet" type="text/css" />
+</h:head>
+<h:body styleClass="corfundo">
+	<div id="Container">
+		<!--H1 LOGO-->
+		<div id="logo">
+			<h1>
+				<a href="#">Isabel Garita</a>
+			</h1>
+		</div>
+		<!--END OF H1 LOGO-->
+		<!--SUBMENU-->
+		<div id="submenu">
+			<div class="clsSubmenu_left">
+				<div class="clsSubmenu_right">
+					<div class="clsSubmenu_center">
+						<ul class="clsClearfix">
+							<li><h:outputLink class="currentClient" value="client.jsf" action="client" ajax="false">Pacientes</h:outputLink></li>
+							<li><h:outputLink class="currentAgreement" value="agreement.jsf" action="agreement" ajax="false">Convênios</h:outputLink></li>
+							<li><h:outputLink class="currentProcedure" value="procedure.jsf" action="procedure" ajax="false">Procedimentos</h:outputLink></li>
+							<li><h:outputLink class="currentUser" value="user.jsf" action="user" ajax="false">Usuários</h:outputLink></li>
+							<li><h:outputLink class="currentReport" value="report.jsf" action="report" ajax="false">Relatório</h:outputLink></li>
+							<li><h:outputLink class="currentUpload" value="update.jsf" action="report" ajax="false">Enviar Arquivo</h:outputLink></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--END OF SUBMENU-->
+		<!--CONTENT -->
+		<div id="Content">
+			<div class="gray_t">
+				<div class="gray_r">
+					<div class="gray_b">
+						<div class="gray_l">
+							<div class="gray_tl">
+								<div class="gray_tr">
+									<div class="gray_bl">
+										<div class="gray_br">
+											<div class="cls100_p">
+												<!--WELCOME-->
+												<div class="clsWelcome">
+													<ui:insert name="conteudo"> Espaço para o conteúdo da tela </ui:insert>
+												</div>
+												<!--END OF WELCOME-->
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--FOOTER-->
+		<div id="footer">
+			<div class="clsFooter_left">
+				<div class="clsFooter_right">
+					<div class="clsFooter_center">
+						<ul class="clsfooternavigation clsborder">
+							<li><h:outputLink value="http://www.hotmail.com" target="_blank">
+									<h:graphicImage value="/imagens/icon_hotmail.png" width="33" height="33" alt="Hotmail" style="border:0px;" />
+								</h:outputLink></li>
+							<li><h:outputLink value="http://www.facebook.com" target="_blank">
+									<h:graphicImage value="/imagens/icon_facebook.png" width="33" height="33" alt="Facebook" style="border:0px;" />
+								</h:outputLink></li>
+							<li><h:outputLink value="http://www.twitter.com" target="_blank">
+									<h:graphicImage value="/imagens/icon_twitter.png" width="33" height="33" alt="Twitter" style="border:0px;" />
+								</h:outputLink></li>
+							<li><h:outputLink value="http://www.gmail.com" target="_blank">
+									<h:graphicImage value="/imagens/icon_gmail.png" width="33" height="33" alt="Gmail" style="border:0px;" />
+								</h:outputLink></li>
+							<li><h:outputLink value="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
+									<h:graphicImage value="/imagens/icon_sair.gif" width="33" height="33" alt="Sair" style="border:0px;" />
+								</h:outputLink></li>
+						</ul>
+						<p>Intercons @2012 Privacy Policy</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--END OF FOOTER-->
+	</div>
+
+</h:body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+
+	<title>:: Gerenciamento de Consultas ::</title>
+	<!-- <script  src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script> --> 
+	<!-- <link rel="stylesheet" href="tema/tema.css" type="text/css" />  -->
+	<link rel="stylesheet" href="css/login.css" type="text/css" />
+	
+</h:head>
+<f:view contentType="text/html" />
+<h:body styleClass="corfundo">
+		<div id="login-box">
+			<h2>Isabel Garita</h2>
+							
+					<p:outputPanel>
+						<center>
+							<h:outputText value="Usuário ou senha incorretos!" rendered="#{param.erro}" style="color: darkred" />
+						</center>
+						<form action="j_spring_security_check" method="post">
+							<p:focus for="j_username" />
+							<h:panelGrid columns="2" cellpadding="5">
+								<h:panelGroup id="login-box-name" style="margin-top:60px;" >
+									<h:outputLabel for="j_username" value="Username: " /> 
+								</h:panelGroup>
+								
+								<h:panelGroup id="login-box-field" style="margin-top:60px;"> 
+									<h:inputText id="j_username" required="true" class="form-login" /> 
+								</h:panelGroup>
+								
+								<h:panelGroup id="login-box-name"> 
+									<h:outputLabel for="j_password" value="Password: " /> 
+								</h:panelGroup>
+								
+								<h:panelGroup id="login-box-field"> 
+									<h:inputSecret id="j_password" required="true" class="form-login" /> 
+								</h:panelGroup>
+								
+								<h:commandButton value="Login" />
+							</h:panelGrid>
+						</form>
+					</p:outputPanel>
+				
+			
+		</div>
+
+</h:body>
+</html>

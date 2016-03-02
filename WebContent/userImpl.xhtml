@@ -1,0 +1,92 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view contentType="text/html" />
+<h:head>
+	<style>
+#submenu li a.currentUser {
+	background: url(images/menu_over.jpg) no-repeat top;
+}
+</style>
+	<title>Usuários</title>
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
+</h:head>
+<h:body>
+	<f:view>
+		<p:growl id="growl" showDetail="true" life="5000" />
+		<h:form id="formData">
+
+			<p:dataTable id="tabela" value="#{userBean.users}" var="user" emptyMessage="Nenhum registro encontrado." paginator="true" rows="10">
+				<f:facet name="header">  
+                    Lista de Usuários &nbsp;&nbsp; - &nbsp;&nbsp;Total:&nbsp;#{userBean.totalUsers}
+                </f:facet>
+
+				<p:column headerText="Nome" sortBy="#{user.name}" filterBy="#{user.name}" style="text-align: left; width:45%">
+					<h:outputText value="#{user.name}" styleClass="dataStyle" />
+				</p:column>
+
+				<p:column headerText="Login" sortBy="#{user.login}" filterBy="#{user.login}" style="text-align: left; width:40%">
+					<h:outputText value="#{user.login}" styleClass="dataStyle" />
+				</p:column>
+
+				<p:column style="text-align: center; width:20%">
+					<p:commandButton id="editButton" update=":formAlter:displayEdit" icon="ui-icon-pencil" oncomplete="userAlterDialog.show()" process="@this" style="width:30%">
+						<f:setPropertyActionListener value="#{user}" target="#{userBean.selectUser}" />
+					</p:commandButton>
+					<p:commandButton id="delButton" icon="ui-icon-trash" onclick="confirmation.show()" style="width:30%">
+						<f:setPropertyActionListener value="#{user}" target="#{userBean.user}" />
+					</p:commandButton>
+				</p:column>
+				
+				<f:facet name="footer">
+					<p:commandButton id="insertButton" value="Inserir" icon="ui-icon-pencil" update=":formData:tabela" oncomplete="userInsertDialog.show()" />
+				</f:facet>
+
+			</p:dataTable>
+
+		</h:form>
+
+		<h:form id="formAlter">
+			<p:dialog header="Alterar Usuário" widgetVar="userAlterDialog" resizable="false" id="userAlterDialog" showEffect="fade" hideEffect="explode" modal="true" width="500" height="200">
+				<h:panelGrid id="displayEdit" columns="2" cellpadding="4" style="margin:0 auto;">
+
+					<h:outputLabel value="Nome:" for="name" styleClass="formLabel" />
+					<p:inputText id="name" label="name" value="#{userBean.selectUser.name}" maxlength="100" size="40" />
+
+					<h:outputLabel value="Login:" for="login" styleClass="formLabel" />
+					<p:inputText id="login" label="login" value="#{userBean.selectUser.login}" maxlength="100" size="40" />
+
+					<h:outputLabel value="Senha:" for="pass" styleClass="formLabel" />
+					<h:inputSecret id="pass" label="pass" value="#{userBean.selectUser.pass}" maxlength="100" size="40" />
+
+					<p:commandButton id="editBtn" update=":formData:tabela" oncomplete="userAlterDialog.hide();" actionListener="#{userBean.edit}" value="Salvar" icon="ui-icon-disk" />
+				</h:panelGrid>
+
+			</p:dialog>
+		</h:form>
+
+		<h:form id="formSave">
+			<p:dialog header="Incluir Usuário" widgetVar="userInsertDialog" resizable="false" id="userInsertDialog" showEffect="fade" hideEffect="explode" modal="true" width="500" height="200">
+				<h:panelGrid id="displaySave" columns="2" cellpadding="4" style="margin:0 auto;">
+					<h:outputLabel value="Nome:" for="name" styleClass="formLabel" />
+					<p:inputText id="name" label="name" value="#{userBean.user.name}" maxlength="100" size="40" />
+
+					<h:outputLabel value="Login:" for="login" styleClass="formLabel" />
+					<p:inputText id="login" label="login" value="#{userBean.user.login}" maxlength="100" size="40" />
+
+					<h:outputLabel value="Senha:" for="pass" styleClass="formLabel" />
+					<h:inputSecret id="pass" label="pass" value="#{userBean.user.pass}" maxlength="100" size="40" />
+
+					<p:commandButton id="saveBtn" update=":formData:tabela" process=":formSave" actionListener="#{userBean.save}" oncomplete="userInsertDialog.hide();" value="Salvar" icon="ui-icon-disk" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+		<h:form id="formDel">
+			<p:confirmDialog message="Deseja realmente excluir este registro?" hideEffect="explode" header="Aviso" severity="alert" widgetVar="confirmation" modal="true">
+				<p:commandButton id="btnSim" value="Sim" oncomplete="confirmation.hide();" actionListener="#{userBean.delete}" process="@form" update=":formData:tabela" />
+				<p:commandButton id="btnNao" value="Não" onclick="confirmation.hide();" type="button" />
+			</p:confirmDialog>
+		</h:form>
+	</f:view>
+</h:body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+
+<h:head>
+	<title>:: Gerenciamento de Consultas ::</title>
+	<link rel="stylesheet" href="style.css" type="text/css" />
+</h:head>
+<h:body styleClass="corfundo">
+	<h1 class="topo">
+		<h:graphicImage value="/imagenss/topo_logo.jpg" width="401" height="110"/>
+	</h1>
+	<div id="topo_apresentacao">
+	
+		<h:outputLink value="http://www.hotmail.com" target="_blank">
+			<h:graphicImage value="/imagens/icon_hotmail.png" width="33" height="33" alt="Hotmail" style="border:0px;" />
+		</h:outputLink>
+		&nbsp;
+		<h:outputLink value="http://www.facebook.com" target="_blank">
+			<h:graphicImage value="/imagens/icon_facebook.png" width="33" height="33" alt="Facebook" style="border:0px;" />
+		</h:outputLink>
+		&nbsp;
+		<h:outputLink value="http://www.twitter.com" target="_blank">
+			<h:graphicImage value="/imagens/icon_twitter.png" width="33" height="33" alt="Twitter" style="border:0px;" />
+		</h:outputLink>
+		&nbsp;
+		<h:outputLink value="http://www.gmail.com" target="_blank">
+			<h:graphicImage value="/imagens/icon_gmail.png" width="33" height="33" alt="Gmail" style="border:0px;" />
+		</h:outputLink>
+		&nbsp;
+		<h:outputLink value="#{facesContext.externalContext.requestContextPath}/j_spring_security_logout">
+			<h:graphicImage value="/imagens/icon_sair.gif" width="33" height="33" alt="Sair" style="border:0px;" />
+		</h:outputLink>
+		
+		<br /><br /><br /><br /><p></p>
+		
+		<h:outputText value="Bem vindo #{userController.user.name}" />
+	</div>
+
+
+	<h:form id="barraDeFerramentas">
+		<p:toolbar>
+			<p:toolbarGroup align="left">
+				<p:commandButton value="Pacientes" action="client" ajax="false" />
+				<p:separator />
+				<p:commandButton value="Convênios" action="agreement" ajax="false" />
+				<p:separator />
+				<p:commandButton value="Procedimentos" action="procedure" ajax="false" />
+				<p:separator />
+				<p:commandButton value="Usuários" action="user" ajax="false" />
+				<p:separator />
+				<p:commandButton value="Relatório" action="report" ajax="false" />
+			</p:toolbarGroup>
+		</p:toolbar>
+	</h:form>
+
+	<hr />
+
+	<ui:insert name="conteudo"> Espaço para o conteúdo da tela </ui:insert>
+
+
+	<div id="footer" style="text-align: center">
+		<hr />
+		&copy; 2012 RodolfoTVA. Todos os direitos reservados.
+	</div>
+
+</h:body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view contentType="text/html" />
+<h:head>
+	<style>
+#submenu li a.currentReport {
+	background: url(images/menu_over.jpg) no-repeat top;
+}
+</style>
+	<title>Relatórios</title>
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
+</h:head>
+<h:body>
+	<f:view>
+		<h:form id="formSearch">
+			<p:fieldset legend="Buscar" toggleable="true" collapsed="true">
+				<h:panelGrid columns="2">
+					<h:outputLabel value="Data Inicial" for="dataIni" styleClass="formLabel" />
+					<p:calendar id="dataIni" value="#{clientBean.clientSearch.initialDate}" pattern="dd/MM/yyyy" effect="drop" showOn="button" />
+
+					<h:outputLabel value="Data Final" for="dataFim" styleClass="formLabel" />
+					<p:calendar id="dataFim" value="#{clientBean.clientSearch.finalDate}" pattern="dd/MM/yyyy" effect="drop" showOn="button" />
+
+					<h:outputLabel value="Nome do Paciente" for="nameSearch" styleClass="formLabel" />
+					<p:inputText id="nameSearch" label="nameSearch" value="#{clientBean.clientSearch.name}" maxlength="100" size="40" />
+
+					<h:outputLabel for="procedureSearch" value="Procedimento:" styleClass="formLabel" />
+					<p:selectOneMenu id="procedureSearch" value="#{clientBean.selectedProcedure}" effect="fade" style="font-size: 14px;">
+						<f:selectItem itemLabel="Todos" itemValue="" />
+						<f:selectItems value="#{procedureBean.procedures}" var="proc" itemLabel="#{proc.description}" itemValue="#{proc.id}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="agreementSearch" value="Convênio:" styleClass="formLabel" />
+					<p:selectOneMenu id="agreementSearch" value="#{clientBean.selectedAgreement}" effect="fade">
+						<f:selectItem itemLabel="Todos" itemValue="" />
+						<f:selectItems value="#{agreementBean.agreements}" var="agree" itemLabel="#{agree.description}" itemValue="#{agree.id}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel value="Pago" for="pgSearch" styleClass="formLabel" />
+					<p:selectOneMenu id="pgSearch" value="#{clientBean.clientSearch.pg}" effect="fade">
+						<f:selectItem itemLabel="Todos" itemValue="-1" />
+						<f:selectItem itemLabel="Não" itemValue="0" />
+						<f:selectItem itemLabel="Sim" itemValue="1" />
+					</p:selectOneMenu>
+
+					<h:outputLabel value="Repasse" for="repasseSearch" styleClass="formLabel" />
+					<p:inputText id="repasseSearch" label="repasseSearch" value="#{clientBean.clientSearch.repasse}" maxlength="100" size="40" />
+					
+					<h:outputLabel value="Atendimento" for="atendSearch" styleClass="formLabel" />
+					<p:inputText id="atendSearch" label="atendSearch" value="#{clientBean.clientSearch.id_atend}" maxlength="100" size="40" />
+
+					<p:commandButton id="btnSearch" value="Buscar" update=":formData:tabela" process=":formSearch" actionListener="#{clientBean.search}" />
+				</h:panelGrid>
+			</p:fieldset>
+		</h:form>
+
+		<h:form id="formData">
+		<p:growl id="aviso" showDetail="true" life="7000" />
+			<p:dataTable id="tabela" value="#{clientBean.clientsSearch}" var="cli" emptyMessage="Nenhum registro encontrado." paginator="true" rows="20">
+				<f:facet name="header">  
+    	                Lista de Pacientes &nbsp;&nbsp; - &nbsp;&nbsp;Total:&nbsp;#{clientBean.totalClientsSearch} 
+	            </f:facet>
+
+				<p:column sortBy="#{cli.matsame}" filterBy="#{cli.matsame}" style="width:15%">
+					<f:facet name="header">
+						<h:outputText value="Atendimento" />
+					</f:facet>
+					<h:outputText value="#{cli.matsame}" styleClass="dataStyle" />
+				</p:column>
+				<p:column sortBy="#{cli.cldate}" filterBy="#{cli.cldate}" style="width:15%">
+					<f:facet name="header">
+						<h:outputText value="Data" />
+					</f:facet>
+					<h:outputText value="#{cli.cldate}" styleClass="dataStyle">
+						<f:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy" />
+					</h:outputText>
+				</p:column>
+				<p:column sortBy="#{cli.pacient}" filterBy="#{cli.pacient}" style="width:20%">
+					<f:facet name="header">
+						<h:outputText value="Nome" />
+					</f:facet>
+					<h:outputText value="#{cli.pacient}" styleClass="dataStyle" />
+				</p:column>
+				<p:column sortBy="#{cli.agreement.description}" filterBy="#{cli.agreement.description}" style="width:20%">
+					<f:facet name="header">
+						<h:outputText value="Convênio" />
+					</f:facet>
+					<h:outputText value="#{cli.agreement.description}" styleClass="dataStyle" />
+				</p:column>
+				<p:column sortBy="#{cli.procedure.description}" filterBy="#{cli.procedure.description}" style="width:20%">
+				    <f:facet name="header">
+						<h:outputText value="Procedimento" />
+					</f:facet>
+					<h:outputText value="#{cli.procedure.description}" styleClass="dataStyle" />
+				</p:column>
+				<p:column sortBy="#{cli.pg}" filterBy="#{cli.pg}" filterOptions="#{clientBean.pgOptions}" filterMatchMode="exact" style="width:5%">
+					<f:facet name="header">
+						<h:outputText value="Pago" />
+					</f:facet>
+					<h:outputText value="#{cli.pg == '1' ? 'Sim' : 'Não'}" styleClass="dataStyle" />
+				</p:column>
+
+				<p:column style="text-align: center; width:5%" exportable="false" >
+					<p:commandButton id="editButton" update=":formAlter:displayEdit" icon="ui-icon-pencil" oncomplete="cliAlterDialog.show()" process="@this" style="width:30%">
+						<f:setPropertyActionListener value="#{cli}" target="#{clientBean.selectClient}" />
+					</p:commandButton>
+					<p:commandButton id="lookButton" update=":formLook:displayLook" oncomplete="cliLookDialog.show()" process="@this" icon="ui-icon-search" title="Detalhes" style="width:30%">
+						<f:setPropertyActionListener value="#{cli}" target="#{clientBean.selectClient}" />
+					</p:commandButton>
+					<p:commandButton id="delButton" icon="ui-icon-trash" onclick="confirmation.show()" style="width:30%">
+						<f:setPropertyActionListener value="#{cli}" target="#{clientBean.client}" />
+					</p:commandButton>
+				</p:column>
+				<f:facet name="footer">
+					<h:commandLink>
+						<p:graphicImage value="/imagens/excel.png" />
+						<p:dataExporter type="xls" target="tabela" fileName="consultas" postProcessor="#{exportBean.postProcessXLS}" />
+					</h:commandLink>
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+		
+		<h:form id="formAlter">
+			<p:dialog header="Alterar Client" widgetVar="cliAlterDialog" resizable="false" id="cliAlterDialog" showEffect="fade" hideEffect="explode" modal="true" width="800" height="450">
+				<h:panelGrid id="displayEdit" columns="2" cellpadding="4" style="margin:0 auto;">
+
+					<h:outputLabel value="Data:*" for="cldateAlter" styleClass="formLabel" />
+					<p:calendar id="cldateAlter" value="#{clientBean.selectClient.cldate}" pattern="dd/MM/yyyy" required="true" effect="drop" showOn="button" />
+
+					<h:outputLabel value="Nome:*" for="pacientAlter" styleClass="formLabel" />
+					<p:inputText id="pacientAlter" label="nome" value="#{clientBean.selectClient.pacient}" required="true" maxlength="100" size="40" />
+
+					<h:outputLabel value="Telefone:" for="telephoneAlter" styleClass="formLabel" />
+					<p:inputMask id="telephoneAlter" label="telefone" value="#{clientBean.selectClient.telephone}" mask="(99) 99999-9999" maxlength="100" size="40" />
+
+					<h:outputLabel value="Atendimento:*" for="matsameAlter" styleClass="formLabel" />
+					<p:inputText id="matsameAlter" label="atendimento" value="#{clientBean.selectClient.matsame}" required="true" maxlength="100" size="40" />
+
+					<h:outputLabel value="Serviço:" for="serviceAlter" styleClass="formLabel" />
+					<p:inputTextarea rows="6" cols="40" id="serviceAlter" label="servico" value="#{clientBean.selectClient.service}" maxlength="100" size="40" />
+
+					<h:outputLabel for="procedureAlter" value="Procedimento:*" styleClass="formLabel" />
+					<p:selectOneMenu id="procedureAlter" value="#{clientBean.selectedProcedure}" effect="fade" required="true" style="font-size: 14px;">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{procedureBean.procedures}" var="proc" itemLabel="#{proc.description}" itemValue="#{proc.id}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel for="agreementAlter" value="Convênio:*" styleClass="formLabel" />
+					<p:selectOneMenu id="agreementAlter" value="#{clientBean.selectedAgreement}" required="true" effect="fade" style="font-size: 14px;">
+						<f:selectItem itemLabel="Selecione" itemValue="" />
+						<f:selectItems value="#{agreementBean.agreements}" var="agree" itemLabel="#{agree.description}" itemValue="#{agree.id}" />
+					</p:selectOneMenu>
+
+					<h:outputLabel value="Pago" for="pgAlter" styleClass="formLabel" />
+					<p:selectOneMenu id="pgAlter" value="#{clientBean.selectClient.pg}" effect="fade">
+						<f:selectItem itemLabel="Não" itemValue="0" />
+						<f:selectItem itemLabel="Sim" itemValue="1" />
+					</p:selectOneMenu>
+
+					<h:outputLabel value="Valor:*" for="valorAlter" styleClass="formLabel" />
+					<p:inputText id="valorAlter" label="valor" value="#{clientBean.selectClient.pgvalue}" maxlength="100" size="40" />
+
+					<p:commandButton id="editBtn" update=":formData:tabela,:formData:aviso" oncomplete="cliAlterDialog.hide();" actionListener="#{clientBean.edit}" value="Salvar" icon="ui-icon-disk" />
+				</h:panelGrid>
+
+			</p:dialog>
+		</h:form>
+
+		<h:form id="formLook">
+			<p:dialog header="Detalhes do Cliente" widgetVar="cliLookDialog" resizable="false" id="cliLookDialog" showEffect="fade" hideEffect="explode" modal="true" width="800" height="300">
+				<h:panelGrid id="displayLook" columns="2" cellpadding="4" style="margin:0 auto;">
+
+					<h:outputLabel value="Data:" for="cldateLook" styleClass="formLabel" />
+					<h:outputText id="cldateLook" value="#{clientBean.selectClient.cldate}" style="font-size: 14px;">
+						<f:convertDateTime type="date" dateStyle="short" pattern="dd/MM/yyyy" />
+					</h:outputText>
+
+					<h:outputLabel value="Nome:" for="pacientLook" styleClass="formLabel" />
+					<h:outputText id="pacientLook" label="nome" value="#{clientBean.selectClient.pacient}" style="font-size: 14px;" />
+
+					<h:outputLabel value="Telefone:" for="telephoneLook" styleClass="formLabel" />
+					<h:outputText id="telephoneLook" label="telefone" value="#{clientBean.selectClient.telephone}" mask="(99) 9999-9999" style="font-size: 14px;" />
+
+					<h:outputLabel value="Atendimento:" for="matsameAlter" styleClass="formLabel" />
+					<h:outputText id="matsameAlter" label="atendimento" value="#{clientBean.selectClient.matsame}" style="font-size: 14px;" />
+
+					<h:outputLabel value="Serviço:" for="serviceLook" styleClass="formLabel" />
+					<h:outputText id="serviceLook" label="servico" value="#{clientBean.selectClient.service}" style="font-size: 14px;" />
+
+					<h:outputLabel for="procedureLook" value="Procedimento:" styleClass="formLabel" />
+					<h:outputText id="procedureLook" value="#{clientBean.selectClient.agreement.description}" style="font-size: 14px;" />
+
+					<h:outputLabel for="agreementLook" value="Convênio:" styleClass="formLabel" />
+					<h:outputText id="agreementLook" value="#{clientBean.selectClient.procedure.description}" style="font-size: 14px;" />
+
+					<h:outputLabel value="Pago" for="pgLook" styleClass="formLabel" />
+					<h:outputText id="pgLook" value="#{clientBean.client.pg == '1' ? 'Sim' : 'Não'}" style="font-size: 14px;" />
+
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+		
+		<h:form id="formDel">
+			<p:confirmDialog message="Deseja realmente excluir este registro?" hideEffect="explode" header="Aviso" severity="alert" widgetVar="confirmation" modal="true">
+				<p:commandButton id="btnSim" value="Sim" oncomplete="confirmation.hide();" actionListener="#{clientBean.delete}" process="@form" update=":formData:tabela,:formData:aviso" />
+				<p:commandButton id="btnNao" value="Não" onclick="confirmation.hide();" type="button" />
+			</p:confirmDialog>
+		</h:form>
+	</f:view>
+</h:body>
+</html>

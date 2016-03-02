@@ -1,0 +1,81 @@
+
+
+#login-box {
+	width:333px;
+	height: 352px;
+	padding: 58px 76px 0 76px;
+	color: #eff6fb;
+	
+	position: absolute;
+    left: 30%; /*posição em relação à parte esquerda*/
+    top: 10%; /*posição em relação à parte superior*/
+	
+	font: 12px Arial, Helvetica, sans-serif;
+	background: url(../imagens/login-box-backg.png) no-repeat left top;
+}
+
+#login-box img {
+	border:none;
+}
+
+#login-box h2 {
+	padding:0;
+	margin:0;
+	color: #eff6fb;
+	font: bold 44px "Calibri", Arial;
+}
+
+
+#login-box-name {
+	float: left;
+	display:inline;
+	width:80px;
+	text-align: right;
+	padding: 14px 10px 0 0;
+	margin:0 0 7px 0;
+	font-weight: bold;
+}
+
+#login-box-field {
+	float: left;
+	display:inline;
+	width:230px;
+	margin:0 0 7px 0;
+}
+
+.form-login  {
+	width: 205px;
+	padding: 10px 4px 6px 3px;
+	border: 1px solid #000000;
+	background-color:#eff6fb;
+	font-size: 16px;
+	color: #000000;
+	font-weight: bold;
+}
+
+
+.login-box-options  {
+	clear:both;
+	padding-left:87px;
+	font-size: 11px;
+}
+
+.login-box-options a {
+	color: #eff6fb;
+	font-size: 11px;
+}
+
+#central {
+  width: 300px;height: 300px;
+  border: solid 1px #000000; /*estilo, tamanho e cor da borda (pra ficar mais fácil a visualização*/
+  position: absolute;
+  left: 50%; /*posição em relação à parte esquerda*/
+  top: 50%; /*posição em relação à parte superior*/
+  margin-left: -150;
+  margin-top: -150;
+}
+
+.corfundo{
+	background-color: #eff6fb;
+}
+

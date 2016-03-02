@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<b:beans xmlns="http://www.springframework.org/schema/security"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:b="http://www.springframework.org/schema/beans"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans
+							http://www.springframework.org/schema/beans/spring-beans.xsd
+							http://www.springframework.org/schema/security
+							http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+ 
+    <http auto-config="true" use-expressions="true">
+		<intercept-url pattern="/index.jsf" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/user.jsf" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/agreement.jsf" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/client.jsf" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/procedure.jsf" access="hasRole('ROLE_USER')"/>
+		<intercept-url pattern="/report.jsf" access="hasRole('ROLE_USER')"/>
+		<form-login login-page="/login.jsf" authentication-failure-url="/login.jsf?erro=true"/>
+    </http>
+ 
+    <authentication-manager>
+        <authentication-provider>
+            <jdbc-user-service data-source-ref="dataSource"
+               users-by-username-query="SELECT username name, password, enable FROM ga_user WHERE username=?"
+               authorities-by-username-query="SELECT user_login as username, autorization_name as authority FROM ga_user_autorization WHERE user_login=?"
+               
+            />
+        </authentication-provider>
+    </authentication-manager>
+ 
+    <b:bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" >
+        <b:property name="url" value="jdbc:mysql://localhost:3306/alquezar_bdgarita" />
+        <b:property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <b:property name="username" value="alquezar_root" />
+        <b:property name="password" value="shira007" />
+    </b:bean>
+ 
+</b:beans>

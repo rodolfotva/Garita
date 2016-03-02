@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="http://java.sun.com/jsf/html" xmlns:f="http://java.sun.com/jsf/core" xmlns:p="http://primefaces.org/ui" xmlns:ui="http://java.sun.com/jsf/facelets">
+<f:view contentType="text/html" />
+
+<h:head>
+	<style>
+#submenu li a.currentAgreement {
+	background: url(images/menu_over.jpg) no-repeat top;
+}
+</style>
+	<title>Convênios</title>
+	<link rel="stylesheet" href="css/style.css" type="text/css" />
+</h:head>
+
+<h:body>
+	<f:view>
+		<h:form id="formData">
+			<p:growl id="aviso" showDetail="true" life="7000" />
+
+			<p:dataTable id="tabela" value="#{agreementBean.agreements}" var="agree" emptyMessage="Nenhum registro encontrado." paginator="true" rows="10">
+				<f:facet name="header">  
+                    Lista de Convênios &nbsp;&nbsp; - &nbsp;&nbsp;Total:&nbsp;#{agreementBean.totalAgreements}  
+            </f:facet>
+				<p:column headerText="Descrição" sortBy="#{agree.description}" filterBy="#{agree.description}" style="text-align: left; width:80%">
+					<h:outputText value="#{agree.description}" styleClass="dataStyle" />
+				</p:column>
+				<p:column style="text-align: center; width:20%">
+					<p:commandButton id="editButton" update=":formAlter:displayEdit,:formData:aviso" icon="ui-icon-pencil" oncomplete="convAlterDialog.show()" process="@this" style="width:30%">
+						<f:setPropertyActionListener value="#{agree}" target="#{agreementBean.selectAgreement}" />
+					</p:commandButton>
+					<p:commandButton id="delButton" icon="ui-icon-trash" onclick="confirmation.show()" style="width:30%">
+						<f:setPropertyActionListener value="#{agree}" target="#{agreementBean.agreement}" />
+					</p:commandButton>
+				</p:column>
+				<f:facet name="footer">
+					<p:commandButton id="insertButton" value="Inserir" icon="ui-icon-pencil" update=":formData:tabela" oncomplete="convInsertDialog.show()" />
+				</f:facet>
+			</p:dataTable>
+		</h:form>
+
+		<h:form id="formAlter">
+			<p:dialog header="Alterar Convênio" widgetVar="convAlterDialog" resizable="false" id="convAlterDialog" showEffect="fade" hideEffect="explode" modal="true" width="700" height="200">
+				<h:panelGrid id="displayEdit" columns="2" cellpadding="4" style="margin:0 auto;">
+
+					<h:outputLabel value="Descrição:" for="descAlter" styleClass="formLabel" />
+					<p:inputText id="descAlter" label="descricao" value="#{agreementBean.selectAgreement.description}" required="true" maxlength="100" size="40" />
+
+					<p:commandButton id="editBtn" update=":formData:tabela,:formData:aviso" oncomplete="convAlterDialog.hide();" actionListener="#{agreementBean.edit}" value="Salvar" icon="ui-icon-disk" />
+				</h:panelGrid>
+
+			</p:dialog>
+		</h:form>
+
+		<h:form id="formSave">
+			<p:dialog header="Incluir Convênio" widgetVar="convInsertDialog" resizable="false" id="convInsertDialog" showEffect="fade" hideEffect="explode" modal="true" width="500" height="200">
+				<h:panelGrid id="displaySave" columns="2" cellpadding="4" style="margin:0 auto;">
+					
+					<h:outputLabel value="Descrição:" for="descSave" styleClass="formLabel" />
+					<p:inputText id="descSave" label="descricao" value="#{agreementBean.agreement.description}" required="true" maxlength="100" size="40" />
+
+					<p:commandButton id="saveBtn" update=":formData:tabela,:formData:aviso" process=":formSave" actionListener="#{agreementBean.save}" oncomplete="convInsertDialog.hide();" value="Salvar" icon="ui-icon-disk" />
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+
+		<h:form id="formDel">
+			<p:confirmDialog message="Deseja realmente excluir este registro?" hideEffect="explode" header="Aviso" severity="alert" widgetVar="confirmation" modal="true">
+				<p:commandButton id="btnSim" value="Sim" oncomplete="confirmation.hide();" actionListener="#{agreementBean.delete}" process="@form" update=":formData:tabela,:formData:aviso" />
+				<p:commandButton id="btnNao" value="Não" onclick="confirmation.hide();" type="button" />
+			</p:confirmDialog>
+		</h:form>
+
+	</f:view>
+</h:body>
+</html>

@@ -1,0 +1,49 @@
+@CHARSET "ISO-8859-1";
+
+.login {
+	width: 400px;
+	position:fixed;
+	top:20%;
+	left:35%;
+}
+
+.msgErro {
+	width: 300px;
+	position: relative;
+}
+
+.dataStyle {
+	font: 12px Arial;
+	font-weight: bold;
+}
+
+.formLabel {
+	font: 14px Arial;
+	font-weight: bold;
+}
+
+.topo {
+	height:120px;
+	font: 12px Arial, Helvetica, sans-serif; /* Tamanho e família de fontes */
+	color: #000000; /* Cor da fonte */
+	background: #ACE0E5 url(imagens/back_top.jpg) 5px 0 repeat; 
+	padding-left:10px; /* Espaçamento do texto a esquerda */
+}
+
+.btnCadastro{
+	font: 14px Arial;
+	font-weight: bold;
+}
+
+#topo_apresentacao {
+	width:460px;
+	height: 110px;
+	
+	text-align :right;
+	position: absolute;
+    left: 60%; /*posição em relação à parte esquerda*/
+    top: 1%; /*posição em relação à parte superior*/
+	
+	font: 12px Arial, Helvetica, sans-serif;
+	
+}
